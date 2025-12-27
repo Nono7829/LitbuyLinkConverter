@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LitbuyLinkConverter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .home-page {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="url"], input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #resultContainer {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>LitbuyLinkConverter</h1>
+        <p>Convertisseur de liens Litbuy pour une navigation simplifiée</p>
+    </header>
+    <section class="home-page">
+        <input type="url" placeholder="Entrez le lien Litbuy">
+        <input disabled type="text" name="InviteCodeTEXT" id="inviteCodeInput" placeholder="Entrez le code d'invitation">
+        <input type="checkbox" name="InviteCode" id="inviteCodeCheckbox">
+        <button id="convertButton" class="convertButtonClass">Convertir le lien</button>
+        <div id="resultContainer" style="display: none;">
+            <h2>Lien converti :</h2>
+            <a href="#" id="convertedLink" target="_blank"></a>
+        </div>
+
+    </section>
+    <script>
+        document.getElementById('inviteCodeCheckbox').addEventListener('change', function() {
+            const inviteCodeInput = document.getElementById('inviteCodeInput');
+            inviteCodeInput.disabled = !this.checked;
+        });
+
+        document.getElementById('convertButton').addEventListener('click', function() {
+            const urlInput = document.querySelector('.home-page input[type="url"]').value;
+            const inviteCodeCheckbox = document.getElementById('inviteCodeCheckbox').checked;
+            const inviteCodeInput = document.getElementById('inviteCodeInput').value;
+
+            let convertedLink = urlInput;
+
+            if (inviteCodeCheckbox && inviteCodeInput) {
+                const url = new URL(urlInput);
+                url.searchParams.set('invite', inviteCodeInput);
+                convertedLink = url.toString();
+            }
+
+            const resultContainer = document.getElementById('resultContainer');
+            const convertedLinkElement = document.getElementById('convertedLink');
+            convertedLinkElement.href = convertedLink;
+            convertedLinkElement.textContent = convertedLink;
+            resultContainer.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
